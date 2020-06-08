@@ -5,7 +5,6 @@
 
 import requests
 import sys
-
 from bs4 import BeautifulSoup
 
 from scrapers.repository import scrape_repositories_search
