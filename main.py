@@ -19,7 +19,7 @@ def show_program_title():
 if __name__ == '__main__':
     show_program_title()
 
-    if len(sys.argv) < 3:
+    if len(sys.argv) < 4:
         exit("Not enough arguments")
 
     scraping_type = sys.argv[1]
@@ -33,11 +33,14 @@ if __name__ == '__main__':
 
     keywords = sys.argv[2].split(",")
 
+    max_results = sys.argv[3]
+
     print(scraping_type)
     print(keywords)
+    print(max_results)
 
     print("\nReady to start scraping!")
 
     if scraping_type == 1:
-        scrape_repositories_search(keywords)
+        scrape_repositories_search(keywords, int(max_results))
     

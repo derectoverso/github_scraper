@@ -16,17 +16,20 @@ Python 3.7
 
 ## Usage
 
-``` > python main.py 'scraping_type' 'keywords' ```
+``` > python main.py 'scraping_type' 'keywords' 'max_results'```
 
 Scraping types available: [repositories]
 
 Keywords: List of coma-separated keywords to use to search for repositories
 
-``` > python main.py repositories python,scrapers ```
+Max_results: An integer for the maximum number of results to scrape. Default value is 10.
+
+``` > python main.py repositories python,scrapers 30```
 
  ## Result
  
- A list of multiple repositories with the following informations:
+ A list of multiple repositories with the following informations.
+ Every item scraped is recorded in a CSV file in the folder "output/".
  
     "title": "",
     "contributor": "",

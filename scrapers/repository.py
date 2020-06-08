@@ -1,11 +1,21 @@
+# -*- coding: utf-8 -*-
+# Repository scraper
+# Version 1.0.0
+# Date: 07/June/2020
+
 import requests
 import sys
 
 from bs4 import BeautifulSoup
+from tools import csv
 
 # Use Requests to get search page's content
-def get_search_page_content(keywords_array):
-    github_url = "https://github.com/search?q="
+def get_search_page_content(keywords_array, page=0):
+
+    if page == 0:
+        github_url = "https://github.com/search?q="
+    elif page > 0:
+        github_url = "https://github.com/search?p="+str(page)+"&q="
 
     for keyword in keywords_array:
         github_url = github_url + keyword + "+"
@@ -111,11 +121,24 @@ def parse_search_page_content(page_content, max_repositories=10):
 
 # Scrape a number of repositories based on a keyword search
 def scrape_repositories_search(keywords_array, max_repositories=10):
-    search_content = get_search_page_content(keywords_array)
+
+    # Scrape first page 
+    search_content = get_search_page_content(keywords_array, 0)
 
     repositories = parse_search_page_content(search_content)
 
-    for repo in repositories:
-        print(repo)
+    # Write CSV header with initial results
+    csv.write_header_to_csv("output/search.csv", repositories[0].keys())
+    # Write CSV body with initial results
+    csv.write_dict_to_csv("output/search.csv", repositories)
+
+    # Parse next pages and scrape results
+    for page in range(2, int(max_repositories / 10)+1):
+        search_content = get_search_page_content(keywords_array, page)
+
+        repositories = parse_search_page_content(search_content)
+
+        csv.write_dict_to_csv("output/search.csv", repositories)
+        
 
 
